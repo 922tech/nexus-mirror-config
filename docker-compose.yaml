@@ -1,4 +1,3 @@
-version: "3"
 services:
   registry:
     image: sonatype/nexus3:3.81.1
@@ -16,9 +15,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
+
+    restart: unless-stopped
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/certs:/etc/nginx/certs
-
 volumes:
   nexus-data: {}
