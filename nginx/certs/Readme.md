@@ -1,1 +1,1 @@
-Put your certs here
+Put your certs here (registry.crt  registry.csr  registry.key)
