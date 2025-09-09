@@ -16,3 +16,31 @@ When working with docker volumes on the same directory make sure the UID inside 
 ```sh
 sudo chown -R 200:200 ./nexus-data
 ```
+
+## Set up local Docker registry
+1. Head to docker(hosted) page to create the repo
+2. On the `Connector` section add your http and/or https ports (you have to update `docker-compose.yml.services.registry.ports` to make this work 
+3. Head to settings -> Security-> Realms and add `Docker Bearer Token Realm`
+4. Click save
+### How to push and pull
+If you do not use HTTPS add this to your /etc/docker/daemon.json:
+```json
+{
+...
+"insecure-registries" : ["<nexus-server-address>:<your-repo-connector-port"]
+...
+}
+```
+Then run
+```
+sudo systemctl daemon-reload && sudo systemctl restart docker
+```
+Tag your image like 
+```
+docker tag busybox:latest 172.16.110.116:5000/repository/my-docker-repo/test:latest
+```
+Then login:
+```
+docker login 172.16.110.116:5000 -u <username>
+```
+Then you can push the image there.
